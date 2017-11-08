@@ -1,0 +1,25 @@
+<resources>
+  <string name="app_name">Budgeting</string>
+  <string name="page_title">Category</string>
+  <string name="category_title">Groceries and Dining Out</string>
+  <string name="button_label">Add a Transaction</string>
+  <string name="text_box_label">Amount</string>
+  <string name="text_box_label_2">Place</string>
+  <string name="text_box_label_3">Notes</string>
+  <string name="date">Date</string>
+
+  <string-array name="categories">
+    <item>Groceries and Dining out</item>
+    <item>Gas</item>
+    <item>Vehicle Payment</item>
+    <item>Entertainment</item>
+    <item>Mortgage/Rent</item>
+    <item>Phone</item>
+    <item>Utilities</item>
+    <item>Insurance</item>
+    <item>Credit Card</item>
+    <item>Cable and Internet</item>
+    <item>Personal Items</item>
+  </string-array>
+</resources>
+  <!--put list view as a string array-->
