@@ -59,16 +59,6 @@ public class CategoryListActivity extends AppCompatActivity {
       }
     });
 
-    final ListView listView = (ListView) findViewById(R.id.item_list);
-    assert listView != null;
-    listView.setOnItemClickListener(new OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-       listView.setVisibility(view.INVISIBLE);
-        openBudgetFragment(view);
-      }
-    });
-
     if (findViewById(R.id.item_detail_container) != null) {
       // The detail container view will be present only in the
       // large-screen layouts (res/values-w900dp).
@@ -76,6 +66,7 @@ public class CategoryListActivity extends AppCompatActivity {
       // activity should be in two-pane mode.
       mTwoPane = true;
     }
+    setupRecyclerView((RecyclerView) findViewById(R.id.category_list));
   }
 
   private void setupRecyclerView(@NonNull RecyclerView recyclerView) {

@@ -19,12 +19,12 @@
 
   <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_list"
+    android:id="@+id/category_list"
     android:layout_width="@dimen/item_width"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
-    android:name="edu.cnm.deepdive.ak.budgetingapp.ItemListFragment"
+    android:name="edu.cnm.deepdive.ak.budgetingapp.CategoryListFragment"
     app:layoutManager="LinearLayoutManager"
     tools:context="edu.cnm.deepdive.ak.budgetingapp.CategoryListActivity"
     tools:listitem="@layout/category_list_content"/>
