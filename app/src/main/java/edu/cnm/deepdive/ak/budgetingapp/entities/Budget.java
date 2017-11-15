@@ -17,12 +17,32 @@ public class Budget {
       format = "yyyy-MM-dd HH:mm:ss", canBeNull = false, readOnly = true)
   private Timestamp created;
 
-  @DatabaseField(columnName = "CATEGORY_ID", canBeNull = false, foreign = true, foreignAutoRefresh = true)
+  @DatabaseField(columnName = "CATEGORY_ID", canBeNull = false, foreign = true,
+      foreignAutoRefresh = true, uniqueCombo = true, index = true)
   private Category category;
 
-  public Category getCategory() {
-    return category;
-  }
+  @DatabaseField(columnName = "YEAR", canBeNull = false, uniqueCombo = true)
+  private int year;
+
+  @DatabaseField(columnName = "MONTH", canBeNull = false, uniqueCombo = true)
+  private int month;
+
+  @DatabaseField(columnName = "AMOUNT", canBeNull = false)
+  private double amount;
+
+  public void setAmount(double amount) {this.amount = amount;}
+
+  public double getAmount() {return amount;}
+
+  public void setMonth(int month) {this.month = month;}
+
+  public int getMonth() {return month;}
+
+  public void setYear(int year) {this.year = year;}
+
+  public int getYear() {return year;}
+
+  public Category getCategory() {return category;}
 
   public void setCategory(Category category) {
     this.category = category;

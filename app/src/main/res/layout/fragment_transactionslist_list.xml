@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  android:layout_width="wrap_content"
+  android:layout_height="match_parent"
+  android:paddingTop="48dp"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <TextView
+    android:id="@+id/textView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="$  "/>
+  <EditText
+    android:id="@+id/monthly_budget"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_alignParentStart="true"
+    android:hint="Enter Monthly Budget"
+    android:textSize="16dp"
+    />
+  <Button
+    android:id="@+id/save"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Save"
+    android:textSize="10dp"
+    android:layout_alignBottom="@+id/textView"
+    android:layout_alignEnd="@+id/transaction_list"
+    />
+
+<android.support.v7.widget.RecyclerView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/transaction_list"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_marginLeft="16dp"
+  android:layout_marginRight="16dp"
+  android:name="edu.cnm.deepdive.ak.budgetingapp.TransactionsListFragment"
+  app:layoutManager="LinearLayoutManager"
+  tools:context="edu.cnm.deepdive.ak.budgetingapp.TransactionsListFragment"
+  tools:listitem="@layout/fragment_transactionslist"
+  android:layout_below="@+id/monthly_budget"/>
+</RelativeLayout>

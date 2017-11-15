@@ -3,6 +3,7 @@ package edu.cnm.deepdive.ak.budgetingapp.entities;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,4 +43,6 @@ public class Category {
     map.put("created", created);
     return super.toString();
   }
+
 }
+
