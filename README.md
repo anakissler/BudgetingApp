@@ -9,7 +9,10 @@ It could help you be more financially proactive.  Having a budget really helps y
 first step of knowing your overall financial health.  Without easy to read data, there is no way of knowing what is going on.  By keeping 
 track of your budget you will know exactly how much money you actually need on a monthly basis.  This budget app will help you to know your 
 exact financial situation and will help lift a tremendous amount of stress off your shoulders.  
-Things left to do:
+
+
+### Things left to do:
+
 •	Have a total amount for all of my categories at the top, perhaps in the app bar/toolbar so that the user can know their total budget 
 for the month at all times.  
 •	Also have the month displayed somewhere that the current budget is for, not just in the transactions page but on the front page. 
