@@ -12,8 +12,6 @@ import edu.cnm.deepdive.ak.budgetingapp.entities.Transaction;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import junit.framework.Assert;
 
 public class OrmHelper extends OrmLiteSqliteOpenHelper  {
 
@@ -86,15 +84,10 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper  {
     getCategoryDao().create(category);
     budget = new Budget();
     budget.setCategory(category);
-    budget.setAmount(250.00);
+    budget.setAmount(0.00);
     budget.setMonth(11);
     budget.setYear(2017);
     getBudgetDao().create(budget);
-    transaction = new Transaction();
-    transaction.setDate(new Date());
-    transaction.setAmount(175.00);
-    transaction.setCategory(category);
-    getTransactionDao().create(transaction);
 
 
     category = new Category();
@@ -102,15 +95,10 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper  {
     getCategoryDao().create(category);
     budget = new Budget();
     budget.setCategory(category);
-    budget.setAmount(100.00);
+    budget.setAmount(0.00);
     budget.setMonth(11);
     budget.setYear(2017);
     getBudgetDao().create(budget);
-    transaction = new Transaction();
-    transaction.setDate(new Date());
-    transaction.setAmount(50.00);
-    transaction.setCategory(category);
-    getTransactionDao().create(transaction);
 
 //    List<Category> testList = getCategoryDao().queryForAll();
 //    Assert.assertEquals(testList.size(), 1);
@@ -121,15 +109,10 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper  {
     getCategoryDao().create(category);
     budget = new Budget();
     budget.setCategory(category);
-    budget.setAmount(200.00);
+    budget.setAmount(0.00);
     budget.setMonth(11);
     budget.setYear(2017);
     getBudgetDao().create(budget);
-    transaction = new Transaction();
-    transaction.setDate(new Date());
-    transaction.setAmount(150.00);
-    transaction.setCategory(category);
-    getTransactionDao().create(transaction);
 
 
 
@@ -138,20 +121,10 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper  {
     getCategoryDao().create(category);
     budget = new Budget();
     budget.setCategory(category);
-    budget.setAmount(40.00);
+    budget.setAmount(0.00);
     budget.setMonth(11);
     budget.setYear(2017);
     getBudgetDao().create(budget);
-    transaction = new Transaction();
-    transaction.setDate(new Date());
-    transaction.setAmount(12.00);
-    transaction.setCategory(category);
-    getTransactionDao().create(transaction);
-    transaction = new Transaction();
-    transaction.setDate(new Date());
-    transaction.setAmount(6.00);
-    transaction.setCategory(category);
-    getTransactionDao().create(transaction);
 
 
 
@@ -164,10 +137,6 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper  {
     budget.setMonth(11);
     budget.setYear(2017);
     getBudgetDao().create(budget);
-    transaction = new Transaction();
-    transaction.setDate(new Date());
-    transaction.setCategory(category);
-    getTransactionDao().create(transaction);
 
 
 
@@ -228,15 +197,10 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper  {
     getCategoryDao().create(category);
     budget = new Budget();
     budget.setCategory(category);
-    budget.setAmount(85.00);
+    budget.setAmount(0.00);
     budget.setMonth(11);
     budget.setYear(2017);
     getBudgetDao().create(budget);
-    transaction = new Transaction();
-    transaction.setDate(new Date());
-    transaction.setAmount(50.00);
-    transaction.setCategory(category);
-    getTransactionDao().create(transaction);
 
     category = new Category();
     category.setName("Household Items");
@@ -256,11 +220,6 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper  {
     budget.setMonth(11);
     budget.setYear(2017);
     getBudgetDao().create(budget);
-    transaction = new Transaction();
-    transaction.setDate(new Date());
-    transaction.setAmount(50.00);
-    transaction.setCategory(category);
-    getTransactionDao().create(transaction);
 
 
     category = new Category();

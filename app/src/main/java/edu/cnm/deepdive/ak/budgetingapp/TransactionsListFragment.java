@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.ak.budgetingapp;
 
-import android.content.ClipData.Item;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,12 +11,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
-import edu.cnm.deepdive.ak.budgetingapp.dummy.DummyContent;
-import edu.cnm.deepdive.ak.budgetingapp.dummy.DummyContent.DummyItem;
-
 import edu.cnm.deepdive.ak.budgetingapp.entities.Budget;
 import edu.cnm.deepdive.ak.budgetingapp.entities.Transaction;
 import edu.cnm.deepdive.ak.budgetingapp.helpers.OrmHelper;
@@ -36,7 +31,6 @@ public class TransactionsListFragment extends Fragment implements OnClickListene
   // TODO: Customize parameters
   private int mColumnCount = 1;
   private OnListFragmentInteractionListener mListener;
-  private OrmHelper helper;
   private int categoryId;
   private String categoryName;
   private Dao<Budget, Integer> budgetDao;
@@ -93,7 +87,7 @@ public class TransactionsListFragment extends Fragment implements OnClickListene
         builder.where().eq("CATEGORY_ID", categoryId);
         List<Transaction> transactions = dao.query(builder.prepare());
         recyclerView
-            .setAdapter(new MyTransactionsListRecyclerViewAdapter(transactions, mListener));
+            .setAdapter(new MyTransactionsListRecyclerViewAdapter(transactions, mListener, ((OrmInteraction)getActivity()).getHelper()));
       } catch (SQLException e) {
         e.printStackTrace();
       }

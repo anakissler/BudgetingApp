@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">Budgeting</string>
+  <string name="app_name">Budget</string>
   <string name="page_title">Category</string>
   <string name="category_title">Groceries and Dining Out</string>
   <string name="button_label">Add a Transaction</string>

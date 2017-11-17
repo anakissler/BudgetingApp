@@ -1,20 +1,17 @@
 package edu.cnm.deepdive.ak.budgetingapp;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import edu.cnm.deepdive.ak.budgetingapp.helpers.OrmHelper;
 import edu.cnm.deepdive.ak.budgetingapp.helpers.OrmHelper.OrmInteraction;

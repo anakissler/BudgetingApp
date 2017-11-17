@@ -3,14 +3,15 @@ package edu.cnm.deepdive.ak.budgetingapp;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.TextView;
-
 import edu.cnm.deepdive.ak.budgetingapp.TransactionsListFragment.OnListFragmentInteractionListener;
 import edu.cnm.deepdive.ak.budgetingapp.dummy.DummyContent.DummyItem;
-
 import edu.cnm.deepdive.ak.budgetingapp.entities.Transaction;
+import edu.cnm.deepdive.ak.budgetingapp.helpers.OrmHelper;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -24,9 +25,11 @@ public class MyTransactionsListRecyclerViewAdapter extends
 
   private final List<Transaction> mValues;
   private final OnListFragmentInteractionListener mListener;
+  private final OrmHelper mHelper;
 
   public MyTransactionsListRecyclerViewAdapter(List<Transaction> items,
-      OnListFragmentInteractionListener listener) {
+      OnListFragmentInteractionListener listener, OrmHelper helper) {
+    mHelper = helper;
     mValues = items;
     mListener = listener;
   }
@@ -39,13 +42,25 @@ public class MyTransactionsListRecyclerViewAdapter extends
   }
 
   @Override
-  public void onBindViewHolder(final ViewHolder holder, int position) {
+  public void onBindViewHolder(final ViewHolder holder, final int position) {
     holder.mItem = mValues.get(position);
     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
     holder.mIdView.setText(sdf.format(mValues.get(position).getDate()));
     holder.mContentView.setText(String.format("$%.2f",mValues.get(position).getAmount()));
     holder.mPlaceField.setText(mValues.get(position).getPlace());
     holder.mNotesField.setText(mValues.get(position).getNotes());
+    holder.mRemoveButton.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        try {
+          mHelper.getTransactionDao().delete(holder.mItem);
+          mValues.remove(position);
+          notifyItemRemoved(position);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    });
     holder.mView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -71,6 +86,7 @@ public class MyTransactionsListRecyclerViewAdapter extends
     public final TextView mPlaceField;
     public final TextView mNotesField;
     public Transaction mItem;
+    public final Button mRemoveButton;
 
     public ViewHolder(View view) {
       super(view);
@@ -79,6 +95,7 @@ public class MyTransactionsListRecyclerViewAdapter extends
       mContentView = (TextView) view.findViewById(R.id.content);
       mPlaceField = (TextView) view.findViewById(R.id.place);
       mNotesField = (TextView) view.findViewById(R.id.notes);
+      mRemoveButton = (Button) view.findViewById(R.id.remove);
     }
 
     @Override

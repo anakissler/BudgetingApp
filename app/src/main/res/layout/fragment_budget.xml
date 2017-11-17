@@ -3,7 +3,8 @@
   android:orientation="vertical"
   android:layout_margin="16dp"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="match_parent"
+  android:weightSum="1">
 
   <!--<EditText-->
     <!--android:id="@+id/editText"-->
@@ -91,8 +92,10 @@
 
   <Button
     android:id="@+id/add_transaction_button"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/button_label"/>
+    android:layout_width="237dp"
+    android:layout_height="72dp"
+    android:layout_gravity="center"
+    android:background="@drawable/submitbutton"
+    />
 
 </LinearLayout>
