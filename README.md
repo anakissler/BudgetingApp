@@ -15,7 +15,10 @@ exact financial situation and will help lift a tremendous amount of stress off y
 
 •	Have a total amount for all of my categories at the top, perhaps in the app bar/toolbar so that the user can know their total budget 
 for the month at all times.  
+
 •	Also have the month displayed somewhere that the current budget is for, not just in the transactions page but on the front page. 
+
 •	Add a toast for when user deletes transaction, confirming that they really want to delete it.  
+
 •	Have an “add category” button so user has the option to create their own category if what they are looking for is not listed in my 
 category list.  
