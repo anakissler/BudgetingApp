@@ -8,22 +8,36 @@
   <string name="text_box_label_3">Notes</string>
   <string name="date">Date</string>
 
-  <!--<string-array name="categories">-->
-    <!--<item>Groceries</item>-->
-    <!--<item>Dining Out</item>-->
-    <!--<item>Gas</item>-->
-    <!--<item>Vehicle Payment</item>-->
-    <!--<item>Entertainment</item>-->
-    <!--<item>Mortgage/Rent</item>-->
-    <!--<item>Phone</item>-->
-    <!--<item>Utilities</item>-->
-    <!--<item>Insurance</item>-->
-    <!--<item>Credit Card</item>-->
-    <!--<item>Cable</item>-->
-    <!--<item>Internet</item>-->
-    <!--<item>Personal Items</item>-->
-  <!--</string-array>-->
+  <string-array name="months">
+    <item>January</item>
+    <item>February</item>
+    <item>March</item>
+    <item>April</item>
+    <item>May</item>
+    <item>June</item>
+    <item>July</item>
+    <item>August</item>
+    <item>September</item>
+    <item>October</item>
+    <item>November</item>
+    <item>December</item>
+  </string-array>
 
+  <!--<string-array name="categories">-->
+  <!--<item>Groceries</item>-->
+  <!--<item>Dining Out</item>-->
+  <!--<item>Gas</item>-->
+  <!--<item>Vehicle Payment</item>-->
+  <!--<item>Entertainment</item>-->
+  <!--<item>Mortgage/Rent</item>-->
+  <!--<item>Phone</item>-->
+  <!--<item>Utilities</item>-->
+  <!--<item>Insurance</item>-->
+  <!--<item>Credit Card</item>-->
+  <!--<item>Cable</item>-->
+  <!--<item>Internet</item>-->
+  <!--<item>Personal Items</item>-->
+  <!--</string-array>-->
 
 
   <string name="title_activity_settings">Settings</string>
@@ -99,5 +113,8 @@
   <string name="pref_ringtone_silent">Silent</string>
 
   <string name="pref_title_vibrate">Vibrate</string>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
   <!--put list view as a string array-->

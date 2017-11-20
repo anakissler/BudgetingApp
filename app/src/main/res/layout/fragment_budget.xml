@@ -42,8 +42,8 @@
     android:id="@+id/date"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
     android:text="@string/date"
     android:focusable="false"/>
 
@@ -62,8 +62,8 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:paddingTop="8dp"
-      android:paddingBottom="8dp"
+      android:paddingTop="16dp"
+      android:paddingBottom="16dp"
       android:hint="@string/text_box_label"/>
   </LinearLayout>
 
@@ -79,8 +79,8 @@
     android:id="@+id/notes"
     android:layout_width="match_parent"
     android:layout_height="174dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
     android:hint="Notes"
     android:background="@drawable/notes"/>
 
@@ -92,8 +92,8 @@
 
   <Button
     android:id="@+id/add_transaction_button"
-    android:layout_width="237dp"
-    android:layout_height="72dp"
+    android:layout_width="131dp"
+    android:layout_height="46dp"
     android:layout_gravity="center"
     android:background="@drawable/submitbutton"
     />

@@ -17,11 +17,18 @@
       android:id="@+id/toolbar"
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
-      android:background="@drawable/blue"
       app:popupTheme="@style/AppTheme.PopupOverlay"
-      android:titleTextColor="@color/black"/>
-
+      android:titleTextColor="@color/black">
+    <Spinner
+      android:id="@+id/monthspinner"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:entries="@array/months"
+      android:layout_gravity="right"
+      android:theme="@style/SpinnerItem"/>
+    </android.support.v7.widget.Toolbar>
   </android.support.design.widget.AppBarLayout>
+
 
   <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,7 +38,26 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <include
       style="ListFont"
-      layout="@layout/category_list"/>
+      layout="@layout/category_list"
+      android:paddingBottom="16dp"/>
+    <android.support.v7.widget.Toolbar
+      android:id="@+id/toolbar2"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="?attr/colorPrimary"
+      android:minHeight="?attr/actionBarSize"
+      android:theme="?attr/actionBarTheme"
+      android:layout_gravity="bottom">
+    <TextView
+      android:id="@+id/total"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="TextView"
+      android:layout_gravity="right"
+      android:layout_marginRight="16dp"
+      android:textColor="#FFFFFF"/>
+    </android.support.v7.widget.Toolbar>
+
 
   </FrameLayout>
 

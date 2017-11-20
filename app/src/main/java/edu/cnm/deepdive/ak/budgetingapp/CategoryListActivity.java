@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Visibility;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,8 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
    */
   private boolean mTwoPane;
   private OrmHelper helper = null;
+  private Dao budgetDao;
+  private Dao transactionDao;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,38 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     toolbar.setTitle(getTitle());
+
+    try {
+      budgetDao = CategoryListActivity.this.getHelper().getBudgetDao();
+      transactionDao = CategoryListActivity.this.getHelper().getTransactionDao();
+      Calendar today = Calendar.getInstance();
+      Calendar startOfMonth = Calendar.getInstance();
+      Calendar endOfMonth = Calendar.getInstance();
+      startOfMonth.set(Calendar.DAY_OF_MONTH, startOfMonth.getMinimum(Calendar.DAY_OF_MONTH));
+      endOfMonth.set(Calendar.DAY_OF_MONTH, endOfMonth.getMaximum(Calendar.DAY_OF_MONTH));
+      QueryBuilder<Budget, Integer> budgetQB = budgetDao.queryBuilder();
+      QueryBuilder<Transaction, Integer> transactionQB = transactionDao.queryBuilder();
+      budgetQB.selectRaw("SUM(AMOUNT)");
+      budgetQB.where()
+          .eq("YEAR", today.get(Calendar.YEAR))
+          .and().eq("MONTH", today.get(Calendar.MONTH) + 1);
+      String[] results = (String [])budgetDao.queryRaw(budgetQB.prepareStatementString()).getFirstResult();
+      double totalBudget= (results != null && results.length > 0 && results[0] != null)
+          ? Double.parseDouble(results[0])
+          : 0;
+      transactionQB.selectRaw("SUM(AMOUNT)");
+      transactionQB.where()
+          .between("DATE", startOfMonth.getTime(), endOfMonth.getTime());
+      results = (String []) transactionDao.queryRaw(transactionQB.prepareStatementString())
+          .getFirstResult();
+      double totalTransactions = (results != null && results.length > 0 && results[0] != null)
+          ? Double.parseDouble(results[0])
+          : 0;
+      ((TextView) findViewById(R.id.total)).setText(String.format("$%,.2f / $%,.2f", totalTransactions, totalBudget));
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
 
 //    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //    fab.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +106,11 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
       Dao<Category, Integer> dao = getHelper().getCategoryDao();
       QueryBuilder<Category, Integer> builder = dao.queryBuilder();
       builder = builder.orderBy("NAME", true);
-      view.setAdapter(new CategoryProgressViewAdaptor(dao.query(builder.prepare())));
+      List<Category> categories = dao.query(builder.prepare());
+      Category dummy = new Category();
+      dummy.setName("Add new category...");
+      categories.add(dummy);
+      view.setAdapter(new CategoryProgressViewAdaptor(categories));
       view.setOnItemClickListener(this);
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -81,18 +120,35 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
     Category category = (Category) adapterView.getItemAtPosition(i);
-    if (mTwoPane) {
-      Bundle args = new Bundle();
-      args.putInt(ItemDetailFragment.ARG_CATEGORY_ID, category.getId());
-      args.putString(ItemDetailFragment.ARG_CATEGORY_NAME, category.getName());
-      ItemDetailFragment fragment = new ItemDetailFragment();
-      fragment.setArguments(args);
-      getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment).commit();
+    if (category.getId() > 0) {
+      if (mTwoPane) {
+        Bundle args = new Bundle();
+        args.putInt(ItemDetailFragment.ARG_CATEGORY_ID, category.getId());
+        args.putString(ItemDetailFragment.ARG_CATEGORY_NAME, category.getName());
+        ItemDetailFragment fragment = new ItemDetailFragment();
+        fragment.setArguments(args);
+        getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment)
+            .commit();
+      } else {
+        Intent intent = new Intent(this, ItemDetailActivity.class);
+        intent.putExtra(ItemDetailFragment.ARG_CATEGORY_ID, category.getId());
+        intent.putExtra(ItemDetailFragment.ARG_CATEGORY_NAME, category.getName());
+        startActivity(intent);
+      }
     } else {
-      Intent intent = new Intent(this, ItemDetailActivity.class);
-      intent.putExtra(ItemDetailFragment.ARG_CATEGORY_ID, category.getId());
-      intent.putExtra(ItemDetailFragment.ARG_CATEGORY_NAME, category.getName());
-      startActivity(intent);
+      if (mTwoPane) {
+        Bundle args = new Bundle();
+        args.putInt(ItemDetailFragment.ARG_CATEGORY_ID, category.getId());
+        CategoryEditFragment fragment = new CategoryEditFragment();
+        fragment.setArguments(args);
+        getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment)
+//            .addToBackStack(fragment.getClass().getSimpleName())
+            .commit();
+      } else {
+        Intent intent = new Intent(this, CategoryEditActivity.class);
+        intent.putExtra(ItemDetailFragment.ARG_CATEGORY_ID, category.getId());
+        startActivity(intent);
+      }
     }
   }
 
@@ -119,32 +175,39 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
       try {
         Category item = (Category) getItem(position);
         View layout = inflater.inflate(R.layout.category_progress_item, null, false);
-        Calendar today = Calendar.getInstance();
-        Calendar startOfMonth = Calendar.getInstance();
-        Calendar endOfMonth = Calendar.getInstance();
-        startOfMonth.set(Calendar.DAY_OF_MONTH, startOfMonth.getMinimum(Calendar.DAY_OF_MONTH));
-        endOfMonth.set(Calendar.DAY_OF_MONTH, endOfMonth.getMaximum(Calendar.DAY_OF_MONTH));
-        QueryBuilder<Budget, Integer> budgetQB = budgetDao.queryBuilder();
-        QueryBuilder<Transaction, Integer> transactionQB = transactionDao.queryBuilder();
-        budgetQB.where().eq("CATEGORY_ID", item.getId())
-            .and().eq("YEAR", today.get(Calendar.YEAR))
-            .and().eq("MONTH", today.get(Calendar.MONTH) + 1);
-        Budget budget = budgetDao.queryForFirst(budgetQB.prepare());
-        transactionQB.selectRaw("SUM(AMOUNT)");
-        transactionQB.where().eq("CATEGORY_ID", item.getId())
-            .and().between("DATE", startOfMonth.getTime(), endOfMonth.getTime());
-        String[] results = transactionDao.queryRaw(transactionQB.prepareStatementString())
-            .getFirstResult();
-        double total = (results != null && results.length > 0 && results[0] != null)
-            ? Double.parseDouble(results[0])
-            : 0;
-        double budgetAmount = (budget != null) ? budget.getAmount() : total;
         ((TextView) layout.findViewById(R.id.category_name)).setText(item.getName());
-        ((TextView) layout.findViewById(R.id.budget_amount))
-            .setText((budget != null) ? String.format("$%,.2f", budgetAmount) : "");
         ProgressBar progress = (ProgressBar) layout.findViewById(R.id.determinateBar);
-        progress.setMax((int) Math.round(budgetAmount));
-        progress.setProgress((int) Math.round(total));
+        TextView categoryBudget = ((TextView) layout.findViewById(R.id.budget_amount));
+        if (item.getId() > 0) {
+
+          Calendar today = Calendar.getInstance();
+          Calendar startOfMonth = Calendar.getInstance();
+          Calendar endOfMonth = Calendar.getInstance();
+          startOfMonth.set(Calendar.DAY_OF_MONTH, startOfMonth.getMinimum(Calendar.DAY_OF_MONTH));
+          endOfMonth.set(Calendar.DAY_OF_MONTH, endOfMonth.getMaximum(Calendar.DAY_OF_MONTH));
+          QueryBuilder<Budget, Integer> budgetQB = budgetDao.queryBuilder();
+          QueryBuilder<Transaction, Integer> transactionQB = transactionDao.queryBuilder();
+          budgetQB.where().eq("CATEGORY_ID", item.getId())
+              .and().eq("YEAR", today.get(Calendar.YEAR))
+              .and().eq("MONTH", today.get(Calendar.MONTH) + 1);
+          Budget budget = budgetDao.queryForFirst(budgetQB.prepare());
+          transactionQB.selectRaw("SUM(AMOUNT)");
+          transactionQB.where().eq("CATEGORY_ID", item.getId())
+              .and().between("DATE", startOfMonth.getTime(), endOfMonth.getTime());
+          String[] results = transactionDao.queryRaw(transactionQB.prepareStatementString())
+              .getFirstResult();
+          double total = (results != null && results.length > 0 && results[0] != null)
+              ? Double.parseDouble(results[0])
+              : 0;
+          double budgetAmount = (budget != null) ? budget.getAmount() : total;
+          categoryBudget.setText((budget != null) ? String.format("$%,.2f", budgetAmount) : "");
+
+          progress.setMax((int) Math.round(budgetAmount));
+          progress.setProgress((int) Math.round(total));
+        } else {
+          categoryBudget.setVisibility(View.INVISIBLE);
+          progress.setVisibility(View.INVISIBLE);
+        }
         return layout;
       } catch (Exception e) {
         throw new RuntimeException(e);

@@ -25,9 +25,11 @@
     android:layout_width="80dp"
     android:layout_height="32dp"
     android:layout_marginRight="112dp"
-    android:layout_alignBottom="@+id/textView"
+    android:background="@drawable/savebutton"
+    android:layout_alignParentTop="true"
     android:layout_alignEnd="@+id/transaction_list"
-    android:background="@drawable/savebutton"/>
+    android:layout_marginEnd="110dp"
+    android:layout_toEndOf="@+id/monthly_budget"/>
 
 <android.support.v7.widget.RecyclerView
   xmlns:android="http://schemas.android.com/apk/res/android"
