@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -21,6 +22,7 @@ import edu.cnm.deepdive.ak.budgetingapp.entities.Budget;
 import edu.cnm.deepdive.ak.budgetingapp.entities.Category;
 import edu.cnm.deepdive.ak.budgetingapp.entities.Transaction;
 import edu.cnm.deepdive.ak.budgetingapp.helpers.OrmHelper;
+import edu.cnm.deepdive.ak.budgetingapp.helpers.OrmHelper.OrmInteraction;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
@@ -31,7 +33,8 @@ import java.util.List;
  * lead to a {@link ItemDetailActivity} representing item details. On tablets, the activity presents
  * the list of items and item details side-by-side using two vertical panes.
  */
-public class CategoryListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class CategoryListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, CategoryEditFragment.Callback,
+    OrmInteraction {
 
   /**
    * Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
@@ -40,6 +43,8 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
   private OrmHelper helper = null;
   private Dao budgetDao;
   private Dao transactionDao;
+  private CategoryProgressViewAdaptor adapter = null;
+  private Spinner monthPicker;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,9 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     toolbar.setTitle(getTitle());
-
+/** Adds the totals of all categories to form a total budget, adds all transactions to show how much
+ *  user has spent out of the total budget.
+ */
     try {
       budgetDao = CategoryListActivity.this.getHelper().getBudgetDao();
       transactionDao = CategoryListActivity.this.getHelper().getTransactionDao();
@@ -82,26 +89,20 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
     }
 
 
-//    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//    fab.setOnClickListener(new View.OnClickListener() {
-//      @Override
-//      public void onClick(View view) {
-//        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//            .setAction("Action", null).show();
-//      }
-//    });
 
     if (findViewById(R.id.item_detail_container) != null) {
-//     The detail container view will be present only in the
-//     large-screen layouts (res/values-w900dp).
-//     If this view is present, then the
-//     activity should be in two-pane mode.
+
       mTwoPane = true;
     }
     setupListView((ListView) findViewById(R.id.category_list));
+    monthPicker = (Spinner) findViewById(R.id.monthspinner);
   }
 
-  private void setupListView(@NonNull ListView view) {
+  /**
+   * sets up ListView with an "Add new Category" option.
+   */
+
+ private void setupListView(@NonNull ListView view) {
     try {
       Dao<Category, Integer> dao = getHelper().getCategoryDao();
       QueryBuilder<Category, Integer> builder = dao.queryBuilder();
@@ -110,7 +111,8 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
       Category dummy = new Category();
       dummy.setName("Add new category...");
       categories.add(dummy);
-      view.setAdapter(new CategoryProgressViewAdaptor(categories));
+        adapter = new CategoryProgressViewAdaptor(categories);
+      view.setAdapter(adapter);
       view.setOnItemClickListener(this);
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -136,20 +138,18 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
         startActivity(intent);
       }
     } else {
-      if (mTwoPane) {
-        Bundle args = new Bundle();
-        args.putInt(ItemDetailFragment.ARG_CATEGORY_ID, category.getId());
-        CategoryEditFragment fragment = new CategoryEditFragment();
-        fragment.setArguments(args);
-        getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment)
-//            .addToBackStack(fragment.getClass().getSimpleName())
-            .commit();
-      } else {
-        Intent intent = new Intent(this, CategoryEditActivity.class);
-        intent.putExtra(ItemDetailFragment.ARG_CATEGORY_ID, category.getId());
-        startActivity(intent);
-      }
+      CategoryEditFragment fragment = new CategoryEditFragment();
+      fragment.show(getSupportFragmentManager(), fragment.getClass().getSimpleName());
+
     }
+  }
+
+  /**
+   * Populates my ListView with my categories.
+   */
+  @Override
+  public void refreshList() {
+    setupListView((ListView) findViewById(R.id.category_list));
   }
 
   public class CategoryProgressViewAdaptor
@@ -170,6 +170,13 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
       }
     }
 
+    /**
+     * Fills progress bar with transactions for specific category.
+      * @param position
+     * @param convertView
+     * @param parent
+     * @return layout
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       try {
@@ -228,20 +235,27 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
 //    newFragment.show(getSupportFragmentManager(), "datePicker");
 //  }
 
-
+  /**
+   * Keeps Month Picked in Spinner when App is stopped and started.
+   */
   @Override
   protected void onStart() {
     super.onStart();
+    monthPicker.setSelection(getPreferences(MODE_PRIVATE).getInt("selectedMonth", 0));
     getHelper();
   }
 
   @Override
   protected void onStop() {
+    getPreferences(MODE_PRIVATE).edit().putInt("selectedMonth", monthPicker.getSelectedItemPosition()).apply();
     releaseHelper();
     super.onStop();
   }
 
-  // creates an instance of the OrmHelper
+  /**
+   * creates an instance of the OrmHelper
+   * @return helper
+   */
   public synchronized OrmHelper getHelper() {
     if (helper == null) {
       helper = OpenHelperManager.getHelper(this, OrmHelper.class);
@@ -249,7 +263,9 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
     return helper;
   }
 
-  // prevents memory leaks by setting the helper to null when not in use
+  /**
+   *prevents memory leaks by setting the helper to null when not in use.
+   */
   public synchronized void releaseHelper() {
     if (helper != null) {
       OpenHelperManager.releaseHelper();

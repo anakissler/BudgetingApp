@@ -1,5 +1,8 @@
 package edu.cnm.deepdive.ak.budgetingapp;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,7 @@ import edu.cnm.deepdive.ak.budgetingapp.TransactionsListFragment.OnListFragmentI
 import edu.cnm.deepdive.ak.budgetingapp.dummy.DummyContent.DummyItem;
 import edu.cnm.deepdive.ak.budgetingapp.entities.Transaction;
 import edu.cnm.deepdive.ak.budgetingapp.helpers.OrmHelper;
+import edu.cnm.deepdive.ak.budgetingapp.helpers.OrmHelper.OrmInteraction;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -50,16 +54,33 @@ public class MyTransactionsListRecyclerViewAdapter extends
     holder.mContentView.setText(String.format("$%.2f",mValues.get(position).getAmount()));
     holder.mPlaceField.setText(mValues.get(position).getPlace());
     holder.mNotesField.setText(mValues.get(position).getNotes());
-    holder.mRemoveButton.setOnClickListener(new OnClickListener() {
+    holder.mDeleteButton.setOnClickListener(new OnClickListener() {
       @Override
-      public void onClick(View view) {
-        try {
-          mHelper.getTransactionDao().delete(holder.mItem);
-          mValues.remove(position);
-          notifyItemRemoved(position);
-        } catch (SQLException e) {
-          e.printStackTrace();
-        }
+      public void onClick(final View view) {
+        AlertDialog.Builder builder = new Builder(view.getContext());
+        builder.setMessage("Permanently delete this transaction?").setTitle("");
+        builder.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int i) {
+            OrmHelper helper = ((OrmInteraction) view.getContext()).getHelper();
+            try {
+              helper.getTransactionDao().delete(holder.mItem);
+              mValues.remove(position);
+              notifyItemRemoved(position);
+            } catch (SQLException e) {
+              Toast.makeText(view.getContext(), "Unable to delete", Toast.LENGTH_LONG);
+            }
+
+          }
+        });
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int i) {
+            //User clicked the Cancel Button
+          }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
       }
     });
     holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +108,7 @@ public class MyTransactionsListRecyclerViewAdapter extends
     public final TextView mPlaceField;
     public final TextView mNotesField;
     public Transaction mItem;
-    public final Button mRemoveButton;
+    public final Button mDeleteButton;
 
     public ViewHolder(View view) {
       super(view);
@@ -96,7 +117,7 @@ public class MyTransactionsListRecyclerViewAdapter extends
       mContentView = (TextView) view.findViewById(R.id.content);
       mPlaceField = (TextView) view.findViewById(R.id.place);
       mNotesField = (TextView) view.findViewById(R.id.notes);
-      mRemoveButton = (Button) view.findViewById(R.id.remove);
+      mDeleteButton = (Button) view.findViewById(R.id.delete);
     }
 
     @Override

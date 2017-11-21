@@ -23,7 +23,9 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-
+/**
+ *This Budget fragment lives inside of my Category List Activity
+ */
 public class BudgetFragment extends Fragment implements OnClickListener {
 
   private Budget mBudget;

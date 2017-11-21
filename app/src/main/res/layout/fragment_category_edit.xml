@@ -7,14 +7,10 @@
 
   <!-- TODO: Update blank fragment layout -->
   <EditText
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:hint="Enter new category"
-  android:paddingLeft="50dp"
-  android:paddingTop="25dp"/>
-  <Button
-    android:id="@+id/saveCategory"
-    android:layout_width="107dp"
-    android:layout_height="51dp"
-    android:background="@drawable/savebutton"/>
+    android:id="@+id/edit_category"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingTop="25dp"/>
+
 </LinearLayout>

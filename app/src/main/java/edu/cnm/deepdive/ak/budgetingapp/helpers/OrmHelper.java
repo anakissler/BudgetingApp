@@ -13,6 +13,9 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Database OrmLite
+ */
 public class OrmHelper extends OrmLiteSqliteOpenHelper  {
 
 
@@ -23,7 +26,10 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper  {
   private Dao<Category, Integer> categoryDao = null;
   private Dao<Budget, Integer> budgetDao = null;
 
-
+  /**
+   * Creates Budget, category and transaction tables.
+   * @param context
+   */
   public OrmHelper(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
   }
@@ -39,6 +45,13 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper  {
     }
   }
 
+  /**
+   *
+   * @param database
+   * @param connectionSource
+   * @param oldVersion
+   * @param newVersion
+   */
   @Override
   public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion,
       int newVersion) {
@@ -53,6 +66,11 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper  {
     super.close();
   }
 
+  /**
+   * Accesses the Transaction Objects
+   * @return
+   * @throws SQLException
+   */
 
     public synchronized Dao<Transaction, Integer> getTransactionDao() throws SQLException {
       if(transactionDao == null) {
@@ -60,18 +78,35 @@ public class OrmHelper extends OrmLiteSqliteOpenHelper  {
       }
       return transactionDao;
     }
+
+  /**
+   * Accesses the Category Objects
+   * @return
+   * @throws SQLException
+   */
     public synchronized Dao<Category, Integer> getCategoryDao() throws SQLException {
       if(categoryDao == null) {
         categoryDao = getDao(Category.class);
       }
       return categoryDao;
     }
+
+  /**
+   * Accesses the Budget Objects
+   * @return
+   * @throws SQLException
+   */
   public synchronized Dao<Budget, Integer> getBudgetDao() throws SQLException {
     if (budgetDao == null) {
       budgetDao = getDao(Budget.class);
     }
     return budgetDao;
   }
+
+  /**
+   * Populates my database with the Categories, budget information and transaction information
+   * @throws SQLException
+   */
   private void populateDatabase() throws SQLException {
     Calendar calendar = Calendar.getInstance();
 
