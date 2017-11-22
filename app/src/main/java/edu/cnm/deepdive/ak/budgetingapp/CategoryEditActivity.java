@@ -14,11 +14,20 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import edu.cnm.deepdive.ak.budgetingapp.helpers.OrmHelper;
 import edu.cnm.deepdive.ak.budgetingapp.helpers.OrmHelper.OrmInteraction;
 
+/**
+ * Activity to add a category to list
+ */
 public class CategoryEditActivity extends AppCompatActivity implements OrmInteraction {
 
+  /**Assigns a category ID to added category*/
   private int categoryId;
+  /**Uses the OrmLite database*/
   private OrmHelper helper;
 
+  /**
+   * Saves the data that has been created
+   * @param savedInstanceState
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -44,27 +53,6 @@ public class CategoryEditActivity extends AppCompatActivity implements OrmIntera
     CategoryEditFragment fragment = new CategoryEditFragment();
     fragment.setArguments(getIntent().getExtras());
     getSupportFragmentManager().beginTransaction().add(R.id.transactions, fragment).commit();
-
-    // savedInstanceState is non-null when there is fragment state
-    // saved from previous configurations of this activity
-    // (e.g. when rotating the screen from portrait to landscape).
-    // In this case, the fragment will automatically be re-added
-    // to its container so we don't need to manually add it.
-    // For more information, see the Fragments API guide at:
-    //
-    // http://developer.android.com/guide/components/fragments.html
-    //
-//    if (savedInstanceState == null) {
-//
-//      Bundle arguments = new Bundle();
-//      arguments.putString(ItemDetailFragment.ARG_CATEGORY_ID,
-//          getIntent().getStringExtra(ItemDetailFragment.ARG_CATEGORY_ID));
-//      ItemDetailFragment fragment = new ItemDetailFragment();
-//      fragment.setArguments(arguments);
-//      getSupportFragmentManager().beginTransaction()
-//          .add(R.id.item_detail_container, fragment)
-//          .commit();
-//    }
   }
 
   @Override
@@ -83,20 +71,24 @@ public class CategoryEditActivity extends AppCompatActivity implements OrmIntera
     return super.onOptionsItemSelected(item);
   }
 
-
+  /**Starts the helper*/
   @Override
   protected void onStart() {
     super.onStart();
     getHelper();
   }
 
+  /**Stops the helper*/
   @Override
   protected void onStop() {
     releaseHelper();
     super.onStop();
   }
 
-  // creates an instance of the OrmHelper
+  /**
+   *creates an instance of the OrmHelper
+   */
+
   @Override
   public synchronized OrmHelper getHelper() {
     if (helper == null) {
@@ -105,7 +97,9 @@ public class CategoryEditActivity extends AppCompatActivity implements OrmIntera
     return helper;
   }
 
-  // prevents memory leaks by setting the helper to null when not in use
+  /**
+   * prevents memory leaks by setting the helper to null when not in use
+   */
   public synchronized void releaseHelper() {
     if (helper != null) {
       OpenHelperManager.releaseHelper();

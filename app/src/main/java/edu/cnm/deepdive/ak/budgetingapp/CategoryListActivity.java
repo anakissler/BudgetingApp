@@ -36,16 +36,23 @@ import java.util.List;
 public class CategoryListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, CategoryEditFragment.Callback,
     OrmInteraction {
 
-  /**
-   * Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
-   */
+  /**Whether or not the activity is in two-pane mode, i.e. running on a tablet device.*/
   private boolean mTwoPane;
+  /**Uses the OrmLite Database*/
   private OrmHelper helper = null;
+  /**Accessing the budget data*/
   private Dao budgetDao;
+  /**Accessing the transaction data*/
   private Dao transactionDao;
+  /**Bridge for data for Progress Bar View*/
   private CategoryProgressViewAdaptor adapter = null;
+  /**Menu to pick a month*/
   private Spinner monthPicker;
 
+  /**
+   * Saves the data that has been created and passes it back to the activity
+   * @param savedInstanceState
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -54,6 +61,7 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     toolbar.setTitle(getTitle());
+
 /** Adds the totals of all categories to form a total budget, adds all transactions to show how much
  *  user has spent out of the total budget.
  */
@@ -119,6 +127,13 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
     }
   }
 
+  /**
+   * Sets up a clickable View for my list
+   * @param adapterView
+   * @param view
+   * @param i
+   * @param l
+   */
   @Override
   public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
     Category category = (Category) adapterView.getItemAtPosition(i);
@@ -221,22 +236,8 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
       }
     }
   }
-//  public void openBudgetFragment(View v) {
-//    android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-//    BudgetFragment budgetFragment = new BudgetFragment();
-//    Bundle arguments = new Bundle();
-//    arguments.putString("categoryName", ((TextView)v).getText().toString());
-//    arguments.putInt("categoryId", );
-//    budgetFragment.setArguments(arguments);
-//    fragmentManager.beginTransaction().add(R.id.fragment_container, budgetFragment).commit();
-//  }
-//  public void showDatePickerDialog(View v) {
-//    DialogFragment newFragment = new DatePickerFragment();
-//    newFragment.show(getSupportFragmentManager(), "datePicker");
-//  }
-
   /**
-   * Keeps Month Picked in Spinner when App is stopped and started.
+   * Keeps Month Picked in Spinner when App is started.
    */
   @Override
   protected void onStart() {
@@ -245,6 +246,9 @@ public class CategoryListActivity extends AppCompatActivity implements AdapterVi
     getHelper();
   }
 
+  /**
+   *Keeps Month Picked in Spinner when App is started.
+   */
   @Override
   protected void onStop() {
     getPreferences(MODE_PRIVATE).edit().putInt("selectedMonth", monthPicker.getSelectedItemPosition()).apply();

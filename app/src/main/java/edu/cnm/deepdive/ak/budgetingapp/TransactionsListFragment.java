@@ -21,20 +21,24 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * A fragment representing a list of Items. <p /> Activities containing this fragment MUST implement
- * the {@link OnListFragmentInteractionListener} interface.
+ * A fragment representing a list of Items.
  */
 public class TransactionsListFragment extends Fragment implements OnClickListener {
-
-  // TODO: Customize parameter argument names
+  /**The fragment argument representing the column count that this fragment represents.*/
   private static final String ARG_COLUMN_COUNT = "column-count";
-  // TODO: Customize parameters
+  /**Where the column count starts*/
   private int mColumnCount = 1;
+  /**Implements list interaction listener*/
   private OnListFragmentInteractionListener mListener;
+  /**Adds the category Id to list*/
   private int categoryId;
+  /**Adds the category name to the list*/
   private String categoryName;
+  /**Accesses the Budget information from database*/
   private Dao<Budget, Integer> budgetDao;
+  /**Accesses the transaction information from database*/
   private Dao<Transaction, Integer> transactionDao;
+  /**Accesses the text filed to edit budget amount*/
   private EditText editBudget;
 
   /**
@@ -44,16 +48,10 @@ public class TransactionsListFragment extends Fragment implements OnClickListene
   public TransactionsListFragment() {
   }
 
-  // TODO: Customize parameter initialization
-//  @SuppressWarnings("unused")
-//  public static TransactionsListFragment newInstance(int columnCount) {
-//    TransactionsListFragment fragment = new TransactionsListFragment();
-//    Bundle args = new Bundle();
-//    args.putInt(ARG_COLUMN_COUNT, columnCount);
-//    fragment.setArguments(args);
-//    return fragment;
-//  }
-
+  /**
+   * Saves the data so that it can be passed back to the activity
+   * @param savedInstanceState
+   */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -65,6 +63,13 @@ public class TransactionsListFragment extends Fragment implements OnClickListene
     }
   }
 
+  /**
+   * Creates a view for my transaction list to pass back to the activity
+   * @param inflater
+   * @param container
+   * @param savedInstanceState
+   * @return view
+   */
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -96,13 +101,19 @@ public class TransactionsListFragment extends Fragment implements OnClickListene
     return view;
   }
 
-
+  /**
+   * fragment is detached after it is destroyed
+   */
   @Override
   public void onDetach() {
     super.onDetach();
     mListener = null;
   }
 
+  /**
+   * returns a view once an item is clicked
+   * @param view
+   */
   @Override
   public void onClick(View view) {
     try {
@@ -122,13 +133,9 @@ public class TransactionsListFragment extends Fragment implements OnClickListene
    * This interface must be implemented by activities that contain this fragment to allow an
    * interaction in this fragment to be communicated to the activity and potentially other fragments
    * contained in that activity.
-   * <p/>
-   * See the Android Training lesson <a href= "http://developer.android.com/training/basics/fragments/communicating.html"
-   * >Communicating with Other Fragments</a> for more information.
    */
   public interface OnListFragmentInteractionListener {
 
-    // TODO: Update argument type and name
     void onListFragmentInteraction(Transaction item);
   }
 

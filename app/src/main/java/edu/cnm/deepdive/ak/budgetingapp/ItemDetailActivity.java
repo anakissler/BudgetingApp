@@ -25,10 +25,17 @@ import edu.cnm.deepdive.ak.budgetingapp.helpers.OrmHelper.OrmInteraction;
 public class ItemDetailActivity extends AppCompatActivity implements Button.OnClickListener,
     OrmInteraction {
 
+  /**Accesses category name*/
   private String categoryName;
+  /**Uses category ID*/
   private int categoryId;
+  /**Accesses the OrmLite database*/
   private OrmHelper helper;
 
+  /**
+   * Saves the data
+   * @param savedInstanceState
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -55,29 +62,13 @@ public class ItemDetailActivity extends AppCompatActivity implements Button.OnCl
     TransactionsListFragment fragment = new TransactionsListFragment();
     fragment.setArguments(getIntent().getExtras());
     getSupportFragmentManager().beginTransaction().add(R.id.transactions, fragment).commit();
-
-    // savedInstanceState is non-null when there is fragment state
-    // saved from previous configurations of this activity
-    // (e.g. when rotating the screen from portrait to landscape).
-    // In this case, the fragment will automatically be re-added
-    // to its container so we don't need to manually add it.
-    // For more information, see the Fragments API guide at:
-    //
-    // http://developer.android.com/guide/components/fragments.html
-    //
-//    if (savedInstanceState == null) {
-//
-//      Bundle arguments = new Bundle();
-//      arguments.putString(ItemDetailFragment.ARG_CATEGORY_ID,
-//          getIntent().getStringExtra(ItemDetailFragment.ARG_CATEGORY_ID));
-//      ItemDetailFragment fragment = new ItemDetailFragment();
-//      fragment.setArguments(arguments);
-//      getSupportFragmentManager().beginTransaction()
-//          .add(R.id.item_detail_container, fragment)
-//          .commit();
-//    }
   }
 
+  /**
+   *
+   * @param item
+   * @return selected item information
+   */
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     int id = item.getItemId();
@@ -94,6 +85,10 @@ public class ItemDetailActivity extends AppCompatActivity implements Button.OnCl
     return super.onOptionsItemSelected(item);
   }
 
+  /**
+   * Populates the view with with clickable items
+   * @param view
+   */
   @Override
   public void onClick(View view) {
     FrameLayout transactions = (FrameLayout)findViewById(R.id.transactions);
@@ -105,19 +100,23 @@ public class ItemDetailActivity extends AppCompatActivity implements Button.OnCl
     getSupportFragmentManager().beginTransaction().replace(R.id.transactions, budgetFragment).addToBackStack("budget").commit();
 //    getSupportFragmentManager().beginTransaction().replace(R.id.transactions, budgetFragment).commit();
   }
+  /**Starts the OrmLite helper*/
   @Override
   protected void onStart() {
     super.onStart();
     getHelper();
   }
-
+  /**Stops the OrmLite helper*/
   @Override
   protected void onStop() {
     releaseHelper();
     super.onStop();
   }
 
-  // creates an instance of the OrmHelper
+  /**
+   * creates an instance of the OrmHelper
+   * @return
+   */
   public synchronized OrmHelper getHelper() {
     if (helper == null) {
       helper = OpenHelperManager.getHelper(this, OrmHelper.class);
@@ -125,7 +124,9 @@ public class ItemDetailActivity extends AppCompatActivity implements Button.OnCl
     return helper;
   }
 
-  // prevents memory leaks by setting the helper to null when not in use
+  /**
+   * prevents memory leaks by setting the helper to null when not in use
+   */
   public synchronized void releaseHelper() {
     if (helper != null) {
       OpenHelperManager.releaseHelper();

@@ -9,6 +9,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/text_margin"
+    android:layout_column="0"
+    android:layout_row="0"
     android:textAppearance="?attr/textAppearanceListItem"
     android:textSize="24dp"
     android:text="date"/>
@@ -18,6 +20,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/text_margin"
+    android:layout_column="0"
+    android:layout_row="1"
     android:textAppearance="?attr/textAppearanceListItem"
     android:textSize="24dp"
     android:text="amount"/>
@@ -39,6 +43,9 @@
     android:layout_margin="@dimen/text_margin"
     android:layout_column="1"
     android:layout_row="1"
+    android:layout_rowSpan="2"
+    android:breakStrategy="high_quality"
+    android:singleLine="false"
     android:text="notes"
     android:textAppearance="?attr/textAppearanceListItem"
     android:textSize="24dp"/>

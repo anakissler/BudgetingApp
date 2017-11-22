@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.cnm.deepdive.ak.budgetingapp.TransactionsListFragment.OnListFragmentInteractionListener;
-import edu.cnm.deepdive.ak.budgetingapp.dummy.DummyContent.DummyItem;
 import edu.cnm.deepdive.ak.budgetingapp.entities.Transaction;
 import edu.cnm.deepdive.ak.budgetingapp.helpers.OrmHelper;
 import edu.cnm.deepdive.ak.budgetingapp.helpers.OrmHelper.OrmInteraction;
@@ -21,17 +20,25 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}. TODO: Replace the implementation with code
- * for your data type.
+ * {@link RecyclerView.Adapter} that can display my item list and makes a call to the
+ * specified {@link OnListFragmentInteractionListener}.
  */
 public class MyTransactionsListRecyclerViewAdapter extends
     RecyclerView.Adapter<MyTransactionsListRecyclerViewAdapter.ViewHolder> {
 
+  /**Transaction list field*/
   private final List<Transaction> mValues;
+  /**fragment called when user clicks on a list item*/
   private final OnListFragmentInteractionListener mListener;
+  /**Accesses the OrmLite database*/
   private final OrmHelper mHelper;
 
+  /**
+   * Binds app-specific data to set the view that is displayed
+   * @param items
+   * @param listener
+   * @param helper
+   */
   public MyTransactionsListRecyclerViewAdapter(List<Transaction> items,
       OnListFragmentInteractionListener listener, OrmHelper helper) {
     mHelper = helper;
@@ -39,6 +46,12 @@ public class MyTransactionsListRecyclerViewAdapter extends
     mListener = listener;
   }
 
+  /**
+   * Item View for transactions
+   * @param parent
+   * @param viewType
+   * @return view
+   */
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext())
@@ -46,6 +59,12 @@ public class MyTransactionsListRecyclerViewAdapter extends
     return new ViewHolder(view);
   }
 
+  /**
+   * sets the view for the transaction list
+   * Alert dialog is used to prompt user to make a decision
+   * @param holder
+   * @param position
+   */
   @Override
   public void onBindViewHolder(final ViewHolder holder, final int position) {
     holder.mItem = mValues.get(position);
@@ -95,21 +114,39 @@ public class MyTransactionsListRecyclerViewAdapter extends
     });
   }
 
+  /**
+   * @return size
+   */
   @Override
   public int getItemCount() {
     return mValues.size();
   }
 
+  /**
+   * View for my list of items
+   */
+
   public class ViewHolder extends RecyclerView.ViewHolder {
 
+    /**View field*/
     public final View mView;
+    /**Assigns and ID to view field*/
     public final TextView mIdView;
+    /**View for content field*/
     public final TextView mContentView;
+    /**View for place text*/
     public final TextView mPlaceField;
+    /**View for notes text*/
     public final TextView mNotesField;
+    /**Field for transaction item*/
     public Transaction mItem;
+    /**View field for delete button*/
     public final Button mDeleteButton;
 
+    /**
+     * View for all fields in transaction
+     * @param view
+     */
     public ViewHolder(View view) {
       super(view);
       mView = view;
@@ -120,6 +157,10 @@ public class MyTransactionsListRecyclerViewAdapter extends
       mDeleteButton = (Button) view.findViewById(R.id.delete);
     }
 
+    /**
+     * Populates transaction list with fields from each transaction
+     * @return strings
+     */
     @Override
     public String toString() {
       return super.toString() + " '" + mContentView.getText() + "'";

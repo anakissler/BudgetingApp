@@ -8,10 +8,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import java.util.Calendar;
 
-
+/**
+ * Fragment that passes a view of a calendar
+ */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-
+  /**
+   * User can pick a day, month and year for transaction
+   * @param savedInstanceState
+   * @return
+   */
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     // Use the current date as the default date in the picker
@@ -24,6 +30,13 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     return new DatePickerDialog(getActivity(), this, year, month, day);
   }
 
+  /**
+   * Returns a view
+   * @param view
+   * @param year
+   * @param month
+   * @param day
+   */
   public void onDateSet(DatePicker view, int year, int month, int day) {
     ((EditText)getActivity().findViewById(R.id.date)).setText((month+ 1) + "/" + day +"/" + year);
 

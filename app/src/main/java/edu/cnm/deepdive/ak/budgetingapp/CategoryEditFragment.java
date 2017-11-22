@@ -17,9 +17,16 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 
-
+/**
+ * Fragment that passes data to Category List Activity
+ */
 public class CategoryEditFragment extends DialogFragment {
 
+  /**
+   * Alert Dialog that pops up so user can add a category to list
+   * @param savedInstanceState
+   * @return
+   */
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -55,6 +62,9 @@ public class CategoryEditFragment extends DialogFragment {
     return alert;
   }
 
+  /**
+   * Updates category list with new category
+   */
   public interface Callback {
     void refreshList();
   }
