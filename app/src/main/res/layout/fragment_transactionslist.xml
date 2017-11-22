@@ -29,6 +29,7 @@
   <TextView
     android:id="@+id/place"
     android:layout_width="267dp"
+    android:layout_columnWeight="3"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/text_margin"
     android:layout_column="1"
@@ -39,6 +40,7 @@
   <TextView
     android:id="@+id/notes"
     android:layout_width="267dp"
+    android:layout_columnWeight="3"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/text_margin"
     android:layout_column="1"
