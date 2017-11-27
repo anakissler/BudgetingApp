@@ -6,8 +6,8 @@ I chose to develop a budgeting app to help myself and others manage money.  At t
 •	Nexus 5x API 22(Android 5.1.1, API 22)
 
 ### Cosmetic improvements:
-1.	 I think the layout of my transactions list could use improvement.  I would outline each transaction with all of its contents in a border to distinguish one from the other.  
-2.	I think changing the font so that it is consistent throughout the whole app would make it look a lot better.
+1.	 The layout of my transactions list could use improvement.  I would outline each transaction with all of its contents in a border to distinguish one from the other.  
+2.	 Changing the font so that it is consistent throughout the whole app would make it look a lot better.
 
 ### Stretch Goals
 
