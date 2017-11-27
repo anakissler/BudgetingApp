@@ -25,6 +25,6 @@ This app has different categories for the user to choose from to set their budge
 
 ## [Link to Javadocs](docs)   
 
-https://anakissler.github.io/BudgetingApp/
+
 
 
