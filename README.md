@@ -22,6 +22,9 @@ This app has different categories for the user to choose from to set their budge
 2.	Adding alerts with sound for when you get close to hitting your budget max would benefit this app overall. 
 3.	My app has the budget amount set for each category, I think adding how much you have spent (in numbers) out of that budget for each category would have its advantages.  Not only the overall amount you have spent out of your total budget but the amount you have spent out of each categories budget.  
 
+## Deficiencies
+
+The save button in my app is distorted when I run this on another emulator.  I would like to fix that so that the buttons stay consistent no matter what you are running it on.  
 
 ## [Link to Javadocs](docs)   
 
