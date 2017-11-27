@@ -16,6 +16,6 @@ I chose to develop a budgeting app to help myself and others manage money.  At t
 3.	My app has the budget amount set for each category, I think adding how much you have spent (in numbers) out of that budget for each category would have its advantages.  Not only the overall amount you have spent out of your total budget but the amount you have spent out of each categories budget.  
 
 
-### [Link to Javadoc]:   file:///C:/Users/BIU/Desktop/bootcamp/projects/BudgetingApp/docs/index.html/
+### [Link to Javadoc]:   file:///C:/Users/BIU/Desktop/bootcamp/projects/BudgetingApp/docs/index.html
 
 
